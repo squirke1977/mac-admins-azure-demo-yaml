@@ -1,0 +1,23 @@
+pool:
+  vmImage: Hosted macOS
+steps:
+- script: |
+   pip install awscli
+
+
+  displayName: 'Let''s get started - install AWS CLI'
+
+- script: 'git clone https://github.com/munki/munki-pkg.git'
+  displayName: 'Clone MunkiPkg'
+
+- script: './munki-pkg/munkipkg munki-pkg/TurnOffBluetooth/'
+  displayName: 'Build an example package'
+
+- task: S3Upload@1
+  displayName: 'S3 Upload: look I can upload to Amazon :)'
+  inputs:
+    awsCredentials: 'AWS S3 ACCESS'
+    regionName: 'eu-west-2'
+    bucketName: 'steveq-azure-demo-bucket'
+    sourceFolder: 'munki-pkg/TurnOffBluetooth/Build/'
+    globExpressions: '*.pkg'
