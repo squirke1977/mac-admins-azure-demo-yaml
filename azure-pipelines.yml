@@ -1,5 +1,5 @@
 pool:
-  vmImage: Hosted macOS
+  vmImage: Hosted macOS-10.14
 steps:
 - script: |
    pip install awscli
